@@ -30,7 +30,7 @@ const switchPattern = reactive(
        v-model:config="switchData" 
        :pattern="switchPattern"
     />
-</<template>>
+</template>
 ```
 
 # select
@@ -72,7 +72,7 @@ const selectPattern = reactive(
        v-model:config="selectData" 
        :pattern="selectPattern"
     />
-</<template>>
+</template>
 ```
 
 # range
@@ -111,7 +111,7 @@ const rangePattern = reactive(
        v-model:config="rangeData" 
        :pattern="rangePattern"
     />
-</<template>>
+</template>
 ```
 
 # checkbox
@@ -151,6 +151,6 @@ const checkboxPattern = reactive(
        v-model:config="checkboxData" 
        :pattern="checkboxPattern"
     />
-</<template>>
+</template>
 ```
 
