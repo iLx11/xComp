@@ -3,16 +3,17 @@ import { onMounted, reactive, watch } from 'vue'
 
 // 默认配置
 const defaultConfig = {
-  rangeValue: 0,
-  rangeMax: 100,
-  rangeMin: 0,
-  rangeStep: 10,
-  rangeDesc: 'desc text',
+  value: 0,
+  max: 100,
+  min: 0,
+  step: 10,
+  text: '',
+  desc: 'desc',
 }
 
 // 默认样式
 const defaultPattern = {
-  rangeTextLeft: '0%',
+  moveLeft: '0%',
 }
 
 const props = defineProps({
@@ -52,32 +53,30 @@ const switchPattern = reactive({ ...defaultPattern, ...props.pattern })
  ********************************************************************************/
 const rangeChange = () => {
   let leftValue =
-    (rangeConfig.rangeValue / (rangeConfig.rangeMax - rangeConfig.rangeMin)) *
-    100
-  switchPattern.rangeTextLeft = leftValue + '%'
+    (rangeConfig.value / (rangeConfig.max - rangeConfig.min)) * 100
+  switchPattern.moveLeft = leftValue + '%'
 }
 </script>
 
 <template>
   <div class="range-tool-content">
-    <div class="range-desc">{{ rangeConfig.rangeDesc }}</div>
+    <div class="range-desc">{{ rangeConfig.desc }}</div>
     <div class="range-box">
       <input
         class="range-input"
         type="range"
-        value="0"
-        v-model="rangeConfig.rangeValue"
-        :min="rangeConfig.rangeMin"
-        :max="rangeConfig.rangeMax"
-        :step="rangeConfig.rangeStep"
+        v-model="rangeConfig.value"
+        :min="rangeConfig.min"
+        :max="rangeConfig.max"
+        :step="rangeConfig.step"
         @input="rangeChange"
       />
       <div class="range-text-box">
         <div
           class="range-text"
-          :style="{ left: switchPattern.rangeTextLeft }"
+          :style="{ left: switchPattern.moveLeft }"
         >
-          {{ rangeConfig.rangeValue }}
+          {{ rangeConfig.value }}
         </div>
       </div>
     </div>

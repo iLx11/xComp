@@ -3,9 +3,9 @@ import { onMounted, reactive, watch, ref } from 'vue'
 
 // 默认配置
 const defaultConfig = {
-  selectList: [],
-  selectText: 'text',
-  selectDesc: 'desc',
+  list: [],
+  text: 'text',
+  desc: 'desc',
 }
 
 // 默认样式
@@ -46,16 +46,21 @@ watch(
 const selectPattern = reactive({ ...defaultPattern, ...props.pattern })
 
 onMounted(() => {
-  defaultText.value =
-    selectConfig.selectList[0] && selectConfig.selectList[0].selectName
+  defaultText.value = selectConfig.list[0] && selectConfig.list[0].item
 })
 
 // 默认选项配置
 const defaultText = ref<string>('')
 
+/********************************************************************************
+ * @brief: 选择子项目
+ * @param {*} index
+ * @return {*}
+ ********************************************************************************/
 const selectOption = (index: number) => {
-  defaultText.value = selectConfig.selectList[index].selectName
-  selectConfig.selectList[index].isSelect = true
+  selectConfig.list.forEach((o) => (o.value = false))
+  selectConfig.list[index].value = true
+  defaultText.value = selectConfig.list[index].item
 }
 </script>
 
@@ -68,17 +73,17 @@ const selectOption = (index: number) => {
       class="first-line"
       :style="{ marginBottom: selectPattern.textMargin }"
     >
-      <div class="select-text">{{ selectConfig.selectText }}</div>
+      <div class="select-text">{{ selectConfig.text }}</div>
       <div class="select-input">
         <div class="dropdown">
           <input
             type="checkbox"
             class="dropdown__select"
-            :id="`${selectConfig.selectText}`"
+            :id="`${selectConfig.text}`"
             hidden
           />
           <label
-            :for="`${selectConfig.selectText}`"
+            :for="`${selectConfig.text}`"
             class="dropdown__options-filter"
           >
             <ul
@@ -97,11 +102,11 @@ const selectOption = (index: number) => {
                   <li
                     class="dropdown__select-option"
                     role="option"
-                    v-for="(v, k) in selectConfig.selectList"
-                    :key="v.selectName"
+                    v-for="(v, k) in selectConfig.list"
+                    :key="v.item"
                     @click="selectOption(k)"
                   >
-                    {{ v.selectName }}
+                    {{ v.item }}
                   </li>
                 </ul>
               </li>
@@ -111,7 +116,7 @@ const selectOption = (index: number) => {
       </div>
     </div>
     <div class="select-desc">
-      {{ selectConfig.selectDesc }}
+      {{ selectConfig.desc }}
     </div>
   </div>
 </template>

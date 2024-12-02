@@ -3,9 +3,9 @@ import { reactive, watch } from 'vue'
 
 // 默认配置
 const defaultConfig = {
-  switchValue: 0,
-  switchText: 'text',
-  switchDesc: 'desc',
+  value: 0,
+  text: 'text',
+  desc: 'desc',
 }
 
 // 默认样式
@@ -55,24 +55,24 @@ const switchPattern = reactive({ ...defaultPattern, ...props.pattern })
       class="first-line"
       :style="{ marginBottom: switchPattern.textMargin }"
     >
-      <div class="switch-text">{{ switchConfig.switchText }}</div>
+      <div class="switch-text">{{ switchConfig.text }}</div>
       <div class="switch-input">
         <input
           type="checkbox"
           name="checkbox-input"
           class="checkbox-input"
-          :id="`${switchConfig.switchText}`"
-          v-model="switchConfig.switchValue"
+          :id="`${switchConfig.text}`"
+          v-model="switchConfig.value"
         />
         <label
-          :for="`${switchConfig.switchText}`"
+          :for="`${switchConfig.text}`"
           class="label"
         >
         </label>
       </div>
     </div>
     <div class="switch-desc">
-      {{ switchConfig.switchDesc }}
+      {{ switchConfig.desc }}
     </div>
   </div>
 </template>

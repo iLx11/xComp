@@ -3,9 +3,9 @@ import { reactive, watch } from 'vue'
 
 // 默认配置
 const defaultConfig = {
-  switchValue: 0,
-  switchText: 'text',
-  switchDesc: 'desc',
+  value: 0,
+  text: 'text',
+  desc: 'desc',
 }
 
 // 默认样式
@@ -55,12 +55,13 @@ const switchPattern = reactive({ ...defaultPattern, ...props.pattern })
       class="first-line"
       :style="{ marginBottom: switchPattern.textMargin }"
     >
-      <div class="switch-text">{{ switchConfig.switchText }}</div>
+      <div class="switch-text">{{ switchConfig.text }}</div>
       <div class="switch-input">
         <label class="switch-label">
           <input
             class="toggle-checkbox"
             type="checkbox"
+            v-model="switchConfig.value"
           />
           <div class="toggle-slot">
             <div class="sun-icon-wrapper">
@@ -83,7 +84,7 @@ const switchPattern = reactive({ ...defaultPattern, ...props.pattern })
       </div>
     </div>
     <div class="switch-desc">
-      {{ switchConfig.switchDesc }}
+      {{ switchConfig.desc }}
     </div>
   </div>
 </template>

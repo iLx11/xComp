@@ -3,9 +3,9 @@ import { reactive, watch } from 'vue'
 
 // 默认配置
 const defaultConfig = {
-  checkboxList: [],
-  checkboxText: 'text',
-  checkboxDesc: 'desc',
+  list: [],
+  text: 'text',
+  desc: 'desc',
 }
 
 // 默认样式
@@ -55,25 +55,25 @@ const checkboxPattern = reactive({ ...defaultPattern, ...props.pattern })
       class="first-line"
       :style="{ marginBottom: checkboxPattern.textMargin }"
     >
-      <div class="checkbox-text">{{ checkboxConfig.checkboxText }}</div>
+      <div class="checkbox-text">{{ checkboxConfig.text }}</div>
     </div>
     <div class="checkbox-desc">
-      {{ checkboxConfig.checkboxDesc }}
+      {{ checkboxConfig.desc }}
     </div>
     <div class="checkbox-box">
       <div
         class="checkbox-wrapper"
-        v-for="(v, k) in checkboxConfig.checkboxList"
+        v-for="(v, k) in checkboxConfig.list"
       >
         <input
           checked=""
           type="checkbox"
           class="check"
-          v-model="checkboxConfig.checkboxList[k].checkValue"
-          :id="`${checkboxConfig.checkboxList[k].checkName}`"
+          v-model="checkboxConfig.list[k].value"
+          :id="`${checkboxConfig.list[k].item}`"
         />
         <label
-          :for="`${checkboxConfig.checkboxList[k].checkName}`"
+          :for="`${checkboxConfig.list[k].item}`"
           class="label"
         >
           <svg
@@ -99,7 +99,7 @@ const checkboxPattern = reactive({ ...defaultPattern, ...props.pattern })
               ></path>
             </g>
           </svg>
-          <span>{{ checkboxConfig.checkboxList[k].checkName }}</span>
+          <span>{{ checkboxConfig.list[k].item }}</span>
         </label>
       </div>
     </div>
