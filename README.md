@@ -68,7 +68,7 @@ const selectPattern = reactive(
 )
 </script>
 <template>
-    <SelectTool
+    <SelectDropTool
        v-model:config="selectData" 
        :pattern="selectPattern"
     />
@@ -107,7 +107,7 @@ const rangePattern = reactive(
 )
 </script>
 <template>
-    <SwitchTool
+    <RangeTool
        v-model:config="rangeData" 
        :pattern="rangePattern"
     />
@@ -121,7 +121,7 @@ const rangePattern = reactive(
 ```vue
 <script setup lang="ts">
 import { reactive } from 'vue'
-const rangeData = reactive(
+const checkboxData = reactive(
 	{
         // 配置列表
         list: [
@@ -137,7 +137,7 @@ const rangeData = reactive(
 	}
 )
 
-const rangePattern = reactive(
+const checkboxPattern = reactive(
 	{
         // text 与 desc 底部间距
     	textMargin: '20px',
@@ -147,9 +147,9 @@ const rangePattern = reactive(
 )
 </script>
 <template>
-    <SwitchTool
-       v-model:config="rangeData" 
-       :pattern="rangePattern"
+    <CheckboxTool
+       v-model:config="checkboxData" 
+       :pattern="checkboxPattern"
     />
 </<template>>
 ```
