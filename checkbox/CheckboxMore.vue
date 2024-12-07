@@ -7,6 +7,7 @@ const defaultConfig = {
   text: 'text',
   desc: 'desc',
   single: false,
+  writable: false,
 }
 
 // 默认样式
@@ -53,20 +54,16 @@ watch(
  * @brief: 样式副本
  ********************************************************************************/
 const compPattern = reactive({ ...defaultPattern, ...props.pattern })
-
 /********************************************************************************
  * @brief: checkbox 的 value 变更时
  * @param {*} index
  * @return {*}
  ********************************************************************************/
 const checkValueChange = (index: number) => {
-  if (
-    check(compProps.single, compConfig.single) &&
-    compConfig.list[index].value
-  ) {
+  if (compConfig.single && !compConfig.list[index].value) {
     compConfig.list.forEach((o) => (o.value = false))
-    compConfig.list[index].value = true
   }
+  compConfig.list[index].value = !compConfig.list[index].value
 }
 
 /********************************************************************************
@@ -117,63 +114,44 @@ const check = (before, after) => {
       :style="{ marginBottom: compPattern.textMargin, gap: compPattern.boxGap }"
     >
       <div
-        class="checkbox-wrapper"
         v-for="(v, k) in check(compProps.list, compConfig.list)"
+        :key="v"
+        @click="checkValueChange(k)"
+        :class="{ 'checkbox-selected': v.value }"
       >
+        <div v-if="!check(compProps.writable, compConfig.writable)">
+          {{ v.item }}
+        </div>
         <input
-          checked=""
-          type="checkbox"
-          class="check"
-          v-model="compConfig.list[k].value"
-          :id="`${compConfig.list[k].item}`"
-          @change="checkValueChange(k)"
+          type="text"
+          v-model="compConfig.list[k].item"
+          v-else
         />
-        <label
-          :for="`${compConfig.list[k].item}`"
-          class="label"
-        >
-          <svg
-            width="45"
-            height="45"
-            viewBox="0 0 95 95"
-          >
-            <rect
-              x="30"
-              y="20"
-              width="50"
-              height="50"
-              stroke="black"
-              fill="none"
-            ></rect>
-            <g transform="translate(0,-952.36222)">
-              <path
-                d="m 56,963 c -102,122 6,9 7,9 17,-5 -66,69 -38,52 122,-77 -7,14 18,4 29,-11 45,-43 23,-4"
-                stroke="black"
-                stroke-width="3"
-                fill="none"
-                class="path1"
-              ></path>
-            </g>
-          </svg>
-          <span>{{ compConfig.list[k].item }}</span>
-        </label>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
+.checkbox-selected {
+  background: rgb(176, 195, 209) !important;
+  color: rgba(255, 255, 255, 0.8);
+}
 .checkbox-tool-content {
   @include global.wh(100%, auto);
   @include global.flex_config(1, space-between);
   .first-line {
-    @include global.wh(100%, 50px);
+    @include global.wh(100%, auto);
     @include global.flex_config(0, space-between);
     @include global.font_config(1.5vw, rgba(51, 51, 51, 1));
     // margin-bottom: 12px;
   }
+  .checkbox-text {
+    @include global.wh(100%, auto);
+    word-break: break-all;
+  }
   .checkbox-desc {
-    @include global.wh(100%, 50px);
+    @include global.wh(100%, auto);
     text-align: start;
     word-break: break-all;
     @include global.font_config(1.2vw, rgba(51, 51, 51, 0.8));
@@ -181,57 +159,28 @@ const check = (before, after) => {
   // margin-bottom: 12px;
   .checkbox-box {
     @include global.wh(100%, auto);
-    display: flex;
-    justify-content: flex-start;
-    flex-flow: row wrap;
-    gap: 20px;
+    @include global.flex_config(0, space-between);
+    // gap: 10px;
+
+    > div {
+      @include global.wh(auto, 70px);
+      @include global.flex_center;
+      flex: 1;
+      border-radius: 10px;
+      font-size: 1vw;
+      background: rgba(51, 51, 51, 0.1);
+      @include global.font_config(1.2vw, rgba(51, 51, 51, 0.8));
+      font-weight: 800;
+      cursor: pointer;
+      input {
+        @include global.full_wh;
+        outline: none;
+        border: none;
+        background-color: rgba(255, 255, 255, 0);
+        text-align: center;
+        @include global.font_config(1.2vw, rgba(51, 51, 51, 0.8));
+      }
+    }
   }
-}
-.checkbox-wrapper input[type='checkbox'] {
-  visibility: hidden;
-  display: none;
-}
-
-.checkbox-wrapper *,
-.checkbox-wrapper ::after,
-.checkbox-wrapper ::before {
-  box-sizing: border-box;
-  user-select: none;
-}
-
-.checkbox-wrapper {
-  position: relative;
-  display: block;
-  overflow: hidden;
-  // margin-right: 12px;
-  // flex: 1;
-  flex-grow: 1;
-}
-
-.checkbox-wrapper .label {
-  cursor: pointer;
-}
-
-.checkbox-wrapper .check {
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  opacity: 0;
-}
-
-.checkbox-wrapper .label svg {
-  vertical-align: middle;
-}
-
-.checkbox-wrapper .path1 {
-  stroke-dasharray: 400;
-  stroke-dashoffset: 400;
-  transition: 0.5s stroke-dashoffset;
-  opacity: 0;
-}
-
-.checkbox-wrapper .check:checked + label svg g path {
-  stroke-dashoffset: 0;
-  opacity: 1;
 }
 </style>

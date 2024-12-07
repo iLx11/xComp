@@ -105,7 +105,7 @@ const check = (before, after) => {
     <div
       class="checkbox-desc"
       :style="{
-        lineHeight: compPattern.descLine,
+        marginBottom: compPattern.textMargin,
         marginBottom: compPattern.descMargin,
         fontSize: compPattern.descFontSize,
       }"
@@ -116,47 +116,16 @@ const check = (before, after) => {
       class="checkbox-box"
       :style="{ marginBottom: compPattern.textMargin, gap: compPattern.boxGap }"
     >
-      <div
-        class="checkbox-wrapper"
-        v-for="(v, k) in check(compProps.list, compConfig.list)"
-      >
-        <input
-          checked=""
-          type="checkbox"
-          class="check"
-          v-model="compConfig.list[k].value"
-          :id="`${compConfig.list[k].item}`"
-          @change="checkValueChange(k)"
-        />
-        <label
-          :for="`${compConfig.list[k].item}`"
-          class="label"
+      <div v-for="(v, k) in check(compProps.list, compConfig.list)">
+        <label class="cyberpunk-checkbox-label">
+          <input
+            type="checkbox"
+            class="cyberpunk-checkbox"
+            v-model="compConfig.list[k].value"
+            @change="checkValueChange(k)"
+          />
+          {{ v.item }}</label
         >
-          <svg
-            width="45"
-            height="45"
-            viewBox="0 0 95 95"
-          >
-            <rect
-              x="30"
-              y="20"
-              width="50"
-              height="50"
-              stroke="black"
-              fill="none"
-            ></rect>
-            <g transform="translate(0,-952.36222)">
-              <path
-                d="m 56,963 c -102,122 6,9 7,9 17,-5 -66,69 -38,52 122,-77 -7,14 18,4 29,-11 45,-43 23,-4"
-                stroke="black"
-                stroke-width="3"
-                fill="none"
-                class="path1"
-              ></path>
-            </g>
-          </svg>
-          <span>{{ compConfig.list[k].item }}</span>
-        </label>
       </div>
     </div>
   </div>
@@ -187,51 +156,42 @@ const check = (before, after) => {
     gap: 20px;
   }
 }
-.checkbox-wrapper input[type='checkbox'] {
-  visibility: hidden;
-  display: none;
-}
-
-.checkbox-wrapper *,
-.checkbox-wrapper ::after,
-.checkbox-wrapper ::before {
-  box-sizing: border-box;
-  user-select: none;
-}
-
-.checkbox-wrapper {
+.cyberpunk-checkbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #666c72a1;
+  border-radius: 5px;
+  background-color: transparent;
+  display: inline-block;
   position: relative;
-  display: block;
-  overflow: hidden;
-  // margin-right: 12px;
-  // flex: 1;
-  flex-grow: 1;
-}
-
-.checkbox-wrapper .label {
+  margin-right: 10px;
   cursor: pointer;
 }
 
-.checkbox-wrapper .check {
-  width: 50px;
-  height: 50px;
+.cyberpunk-checkbox:before {
+  content: '';
+  background-color: #666c72a1;
+  display: block;
   position: absolute;
-  opacity: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out;
 }
 
-.checkbox-wrapper .label svg {
-  vertical-align: middle;
+.cyberpunk-checkbox:checked:before {
+  transform: translate(-50%, -50%) scale(1);
 }
 
-.checkbox-wrapper .path1 {
-  stroke-dasharray: 400;
-  stroke-dashoffset: 400;
-  transition: 0.5s stroke-dashoffset;
-  opacity: 0;
-}
-
-.checkbox-wrapper .check:checked + label svg g path {
-  stroke-dashoffset: 0;
-  opacity: 1;
+.cyberpunk-checkbox-label {
+  font-size: 1.4vw;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
 }
 </style>

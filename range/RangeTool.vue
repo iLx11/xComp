@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, watch } from 'vue'
+import { onMounted, reactive, watch, computed } from 'vue'
 
 // 默认配置
 const defaultConfig = {
@@ -7,13 +7,15 @@ const defaultConfig = {
   max: 100,
   min: 0,
   step: 10,
-  text: '',
+  text: 'text',
   desc: 'desc',
 }
 
 // 默认样式
 const defaultPattern = {
   moveLeft: '0%',
+  textMargin: '20px',
+  boxMargin: '20px',
 }
 
 const props = defineProps({
@@ -33,11 +35,13 @@ const emit = defineEmits(['update:config'])
  * @brief: 配置副本
  ********************************************************************************/
 const rangeConfig = reactive({ ...defaultConfig, ...props.config })
+const propsConfig = reactive(props.config)
 
+// 留下更新接口
 watch(
-  rangeConfig,
-  () => {
-    emit('update:config', { ...rangeConfig })
+  () => rangeConfig,
+  (value) => {
+    emit('update:config', { ...value })
   },
   { deep: true }
 )
@@ -53,22 +57,28 @@ const switchPattern = reactive({ ...defaultPattern, ...props.pattern })
  ********************************************************************************/
 const rangeChange = () => {
   let leftValue =
-    (rangeConfig.value / (rangeConfig.max - rangeConfig.min)) * 100
+    (propsConfig.value / (propsConfig.max - propsConfig.min)) * 100
   switchPattern.moveLeft = leftValue + '%'
 }
 </script>
 
 <template>
   <div class="range-tool-content">
-    <div class="range-desc">{{ rangeConfig.desc }}</div>
+    <div
+      class="first-line"
+      :style="{ marginBottom: switchPattern.textMargin }"
+    >
+      <div class="checkbox-text">{{ propsConfig.text }}</div>
+    </div>
+    <div class="range-desc">{{ propsConfig.desc }}</div>
     <div class="range-box">
       <input
         class="range-input"
         type="range"
         v-model="rangeConfig.value"
-        :min="rangeConfig.min"
-        :max="rangeConfig.max"
-        :step="rangeConfig.step"
+        :min="propsConfig.min"
+        :max="propsConfig.max"
+        :step="propsConfig.step"
         @input="rangeChange"
       />
       <div class="range-text-box">
@@ -88,7 +98,14 @@ const rangeChange = () => {
   @include global.wh(100%, auto);
   @include global.flex_config(1, space-between);
   margin-bottom: 20px;
+  .first-line {
+    @include global.wh(100%, 50px);
+    @include global.flex_config(0, space-between);
+    @include global.font_config(1.5vw, rgba(51, 51, 51, 1));
+    // margin-bottom: 12px;
+  }
 }
+
 // Base Colors
 $shade-10: #2c3e50 !default;
 $shade-1: #d7dcdf !default;

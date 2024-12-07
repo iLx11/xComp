@@ -12,6 +12,7 @@ const defaultConfig = {
 const defaultPattern = {
   textMargin: '20px',
   boxMargin: '20px',
+  inputWidth: '50%',
 }
 
 const props = defineProps({
@@ -74,7 +75,10 @@ const selectOption = (index: number) => {
       :style="{ marginBottom: selectPattern.textMargin }"
     >
       <div class="select-text">{{ selectConfig.text }}</div>
-      <div class="select-input">
+      <div
+        class="select-input"
+        :style="{ width: selectPattern.inputWidth }"
+      >
         <div class="dropdown">
           <input
             type="checkbox"
@@ -126,9 +130,11 @@ const selectOption = (index: number) => {
   @include global.wh(100%, auto);
   @include global.flex_config(1, space-between);
   .first-line {
-    @include global.wh(100%, 50px);
+    @include global.wh(100%, auto);
     @include global.flex_config(0, space-between);
+    flex-wrap: wrap;
     @include global.font_config(1.5vw, rgba(51, 51, 51, 1));
+    gap: 2vw;
     // margin-bottom: 12px;
   }
   .select-desc {
@@ -143,14 +149,13 @@ const selectOption = (index: number) => {
 }
 
 .select-input {
-  @include global.wh(50%, 100%);
-  font-size: 1.1vw !important;
-  line-height: 100%;
+  // @include global.wh(50%, 100%);
+  height: 100%;
+  font-size: 1.2vw !important;
 }
 
 .dropdown {
-  width: 100%;
-  font-family: 'Helvetica', sans-serif;
+  // font-family: 'Helvetica', sans-serif;
   font-weight: 300;
   box-shadow: 0 0 0 2px rgba(51, 51, 51, 0.2);
   border-radius: 12px;
