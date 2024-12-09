@@ -6,7 +6,7 @@ const defaultConfig = {
   value: 0,
   max: 100,
   min: 0,
-  step: 10,
+  step: 1,
   text: 'text',
   desc: 'desc',
 }
@@ -69,8 +69,10 @@ const rangeChange = () => {
         check(compProps.min, compConfig.min))) *
       100
   )
+  console.info(compConfig.value, compConfig.max)
 
-  compPattern.moveLeft = leftValue + '%'
+  compPattern.moveLeft = leftValue * -2 + '%'
+  console.info(compPattern.moveLeft)
 }
 
 /********************************************************************************
@@ -81,6 +83,23 @@ const rangeChange = () => {
  ********************************************************************************/
 const check = (before, after) => {
   return before ? before : after
+}
+
+onMounted(() => {
+  generateTicks()
+})
+
+const ticks = reactive([])
+
+const generateTicks = () => {
+  if (compConfig.min >= compConfig.max) {
+    return
+  }
+  const step = (compConfig.max - compConfig.min) / 20
+  for (let i = 0; i <= 20; i++) {
+    ticks.push(compConfig.min + i * step)
+  }
+  console.info(ticks)
 }
 </script>
 
@@ -116,7 +135,10 @@ const check = (before, after) => {
     >
       {{ check(compProps.desc, compConfig.desc) }}
     </div>
-    <div class="range-box">
+    <div
+      class="range-box"
+      :style="{ marginBottom: compPattern.textMargin, gap: compPattern.boxGap }"
+    >
       <input
         class="range-input"
         type="range"
@@ -127,12 +149,28 @@ const check = (before, after) => {
         :step="check(compProps.step, compConfig.step)"
       />
       <div class="range-text-box">
+        <div class="range-center-line"></div>
         <div
+          class="range-move-box"
+          :style="{ left: compPattern.moveLeft }"
+        >
+          <div class="tick-short-line"></div>
+
+          <div
+            v-for="tick in ticks"
+            :key="tick"
+            class="tick-box"
+          >
+            <div>{{ tick }}</div>
+            <div class="tick-line"></div>
+          </div>
+        </div>
+        <!-- <div
           class="range-text"
           :style="{ left: compPattern.moveLeft }"
         >
           {{ compConfig.value }}
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -142,7 +180,7 @@ const check = (before, after) => {
 .range-tool-content {
   @include global.wh(100%, auto);
   @include global.flex_config(1, space-between);
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
   .first-line {
     @include global.wh(100%, 50px);
     @include global.flex_config(0, space-between);
@@ -164,28 +202,17 @@ $teal: #e1a08e !default;
   word-break: break-all;
 }
 
-.range-box {
-  @include global.wh(100%, 90px);
-  padding: 0 20px;
-  // @include global.flex_ce;
-}
-
 // Range Slider
-$range-width: 100% !default;
-
 $range-handle-color: $shade-10 !default;
 $range-handle-color-hover: $teal !default;
 $range-handle-size: 20px !default;
-
 $range-track-color: $shade-1 !default;
-$range-track-height: 10px !default;
-
-$range-label-color: $shade-10 !default;
-$range-label-width: 60px !default;
 
 .range-box {
-  width: $range-width;
+  @include global.wh(100%, 80px);
+  padding: 0 20px;
   @include global.flex_config(1, space-between);
+  // margin-bottom: 20px;
 }
 
 .range-input {
@@ -242,33 +269,50 @@ $range-label-width: 60px !default;
 }
 
 .range-text-box {
-  @include global.wh(calc(100% - 20px), 40px);
+  @include global.wh(102%, 50px);
   position: relative;
-}
+  overflow: scroll;
+  mask: linear-gradient(90deg, #000 70%, transparent);
 
-// Range Label
-.range-text {
-  @include global.wh(auto, 40px);
-  // @include global.pos_ab(0, 0, 3);
-  position: absolute;
-  left: 40%;
-  top: 0%;
-  @include global.style_common(12px, $range-handle-color);
-  transform: translateX(-50%);
-  @include global.flex_center;
-  @include global.font_config(1.2vw, rgba(255, 255, 255, 1));
-  padding: 10px;
+  .range-center-line {
+    @include global.wh(7px, 20px);
+    background: rgb(249, 141, 141);
+    @include global.pos_ab(-5%, 50%);
+    transform: translate(-50%, 0);
+    z-index: 99;
+  }
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0px;
-    left: 50%;
-    transform: translate(-50%, -60%);
-    width: 100%;
-    height: 50%;
-    background: $range-handle-color;
-    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+  .tick-short-line {
+    @include global.wh(100%, 20px);
+    @include global.pos_ab;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(51, 51, 51, 0.2),
+      rgba(51, 51, 51, 0.2) 0.1%,
+      transparent 0.1%,
+      transparent 1%
+    );
+  }
+
+  .range-move-box {
+    @include global.wh(200%, 100%);
+    @include global.pos_ab;
+    background: rgba(172, 186, 189, 0.3);
+    @include global.flex_config(0, space-between);
+    transform: translate(25%);
+    .tick-box {
+      @include global.wh(1px, 100%);
+      text-align: center;
+      height: 100%;
+      position: relative;
+      @include global.flex_config(1, flex-end);
+    }
+    .tick-line {
+      @include global.wh(3px, 25px);
+      background: rgba(51, 51, 51, 0.5);
+      @include global.pos_ab(0, 50%);
+      transform: translate(-50%);
+    }
   }
 }
 
