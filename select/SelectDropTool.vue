@@ -31,12 +31,13 @@ const emit = defineEmits(['update:config'])
 /********************************************************************************
  * @brief: 配置副本
  ********************************************************************************/
-const selectConfig = reactive({ ...defaultConfig, ...props.config })
+const compConfig = reactive({ ...defaultConfig, ...props.config })
+const compProps = reactive(props.config)
 
 watch(
-  selectConfig,
+  compConfig,
   () => {
-    emit('update:config', { ...selectConfig })
+    emit('update:config', { ...compConfig })
   },
   { deep: true }
 )
@@ -44,11 +45,11 @@ watch(
 /********************************************************************************
  * @brief: 样式副本
  ********************************************************************************/
-const selectPattern = reactive({ ...defaultPattern, ...props.pattern })
+const compPattern = reactive({ ...defaultPattern, ...props.pattern })
 
-onMounted(() => {
-  defaultText.value = selectConfig.list[0] && selectConfig.list[0].item
-})
+// onMounted(() => {
+//   defaultText.value = compConfig.list[0] && compConfig.list[0].item
+// })
 
 // 默认选项配置
 const defaultText = ref<string>('')
@@ -59,35 +60,45 @@ const defaultText = ref<string>('')
  * @return {*}
  ********************************************************************************/
 const selectOption = (index: number) => {
-  selectConfig.list.forEach((o) => (o.value = false))
-  selectConfig.list[index].value = true
-  defaultText.value = selectConfig.list[index].item
+  compConfig.list.forEach((o) => (o.value = false))
+  compConfig.list[index].value = true
+  defaultText.value = compConfig.list[index].item
+}
+
+/********************************************************************************
+ * @brief: 返回数据状态
+ * @param {*} before
+ * @param {*} after
+ * @return {*}
+ ********************************************************************************/
+const check = (before, after) => {
+  return before ? before : after
 }
 </script>
 
 <template>
   <div
     class="select-tool-content"
-    :style="{ marginBottom: selectPattern.boxMargin }"
+    :style="{ marginBottom: compPattern.boxMargin }"
   >
     <div
       class="first-line"
-      :style="{ marginBottom: selectPattern.textMargin }"
+      :style="{ marginBottom: compPattern.textMargin }"
     >
-      <div class="select-text">{{ selectConfig.text }}</div>
+      <div class="select-text">{{ check(compProps.text, compConfig.text) }}</div>
       <div
         class="select-input"
-        :style="{ width: selectPattern.inputWidth }"
+        :style="{ width: compPattern.inputWidth }"
       >
         <div class="dropdown">
           <input
             type="checkbox"
             class="dropdown__select"
-            :id="`${selectConfig.text}`"
+            :id="`${check(compProps.text, compConfig.text)}`"
             hidden
           />
           <label
-            :for="`${selectConfig.text}`"
+            :for="`${check(compProps.text, compConfig.text)}`"
             class="dropdown__options-filter"
           >
             <ul
@@ -106,7 +117,7 @@ const selectOption = (index: number) => {
                   <li
                     class="dropdown__select-option"
                     role="option"
-                    v-for="(v, k) in selectConfig.list"
+                    v-for="(v, k) in check(compProps.list, compConfig.list)"
                     :key="v.item"
                     @click="selectOption(k)"
                   >
@@ -120,7 +131,7 @@ const selectOption = (index: number) => {
       </div>
     </div>
     <div class="select-desc">
-      {{ selectConfig.desc }}
+      {{ check(compProps.desc, compConfig.desc) }}
     </div>
   </div>
 </template>
@@ -156,6 +167,7 @@ const selectOption = (index: number) => {
 
 .dropdown {
   // font-family: 'Helvetica', sans-serif;
+
   font-weight: 300;
   box-shadow: 0 0 0 2px rgba(51, 51, 51, 0.2);
   border-radius: 12px;
@@ -184,6 +196,9 @@ const selectOption = (index: number) => {
     // font-size: 14px;
     transition: 0.3s;
     z-index: 9;
+    min-width: 0;
+    min-height: 0;
+    box-sizing: border-box;
 
     &:focus {
       outline: none;

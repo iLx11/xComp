@@ -72,7 +72,7 @@ const rangeChange = () => {
   console.info(compConfig.value, compConfig.max)
 
   compPattern.moveLeft = leftValue * -2 + '%'
-  console.info(compPattern.moveLeft)
+  // console.info(compPattern.moveLeft)
 }
 
 /********************************************************************************
@@ -99,7 +99,7 @@ const generateTicks = () => {
   for (let i = 0; i <= 20; i++) {
     ticks.push(compConfig.min + i * step)
   }
-  console.info(ticks)
+  // console.info(ticks)
 }
 </script>
 

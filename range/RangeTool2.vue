@@ -7,6 +7,7 @@ const defaultConfig = {
   max: 100,
   min: 0,
   step: 1,
+  scale: 20,
   text: 'text',
   desc: 'desc',
 }
@@ -70,9 +71,15 @@ const rangeChange = () => {
       100
   )
   console.info(compConfig.value, compConfig.max)
+  let minLeft = Math.ceil(
+    (check(compProps.min, compConfig.min) /
+      (check(compProps.max, compConfig.max) -
+        check(compProps.min, compConfig.min))) *
+      100
+  )
 
-  compPattern.moveLeft = leftValue * -2 + '%'
-  console.info(compPattern.moveLeft)
+  compPattern.moveLeft = (leftValue - minLeft) * -2 + '%'
+  // console.info(compPattern.moveLeft)
 }
 
 /********************************************************************************
@@ -95,11 +102,12 @@ const generateTicks = () => {
   if (compConfig.min >= compConfig.max) {
     return
   }
-  const step = (compConfig.max - compConfig.min) / 20
-  for (let i = 0; i <= 20; i++) {
+  const step =
+    (compConfig.max - compConfig.min) / check(compProps.scale, compConfig.scale)
+  for (let i = 0; i <= check(compProps.scale, compConfig.scale); i++) {
     ticks.push(compConfig.min + i * step)
   }
-  console.info(ticks)
+  // console.info(ticks)
 }
 </script>
 

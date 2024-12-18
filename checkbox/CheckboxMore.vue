@@ -12,14 +12,23 @@ const defaultConfig = {
 
 // 默认样式
 const defaultPattern = {
+  // text 与 desc 底部间距
   textMargin: '20px',
+  // 配置组件与其他组件底部间距
   boxMargin: '20px',
+  // text 字体大小
   textFontSize: '1.5vw',
+  // 组件 padding
   boxPadding: '0',
+  // 子盒子间隔
   boxGap: '10px',
+  // 标题内容布局 (start, center, end)
   textAlign: 'start',
+  // 描述字符高度
   descLine: 1.2,
+  // 描述底部间距
   descMargin: '20px',
+  // 描述字体大小
   descFontSize: '1.2vw',
 }
 

@@ -75,7 +75,7 @@ const selectPattern = reactive(
 
 # range
 
-### 父组件
+### 普通组件
 
 ```vue
 <script setup lang="ts">
@@ -99,22 +99,85 @@ const rangePattern = reactive(
 	{
         // 移动快左位移
     	moveLeft: '0%',
+        // text 字体大小
+        textFontSize: '1.5vw',
+        // 组件 padding
+        boxPadding: '0',
+        // 子盒子间隔
+        boxGap: '10px',
+        // 标题内容布局 (start, center, end)
+        textAlign: 'start',
+        // 描述字符高度
+        descLine: 1.2,
+        // 描述底部间距
+        descMargin: '20px',
+        // 描述字体大小
+        descFontSize: '1.2vw',
     }
 )
 </script>
 <template>
     <RangeTool
-       v-model:config="rangeData" 
-       :pattern="rangePattern"
-    />
+        :config="rangeData"
+        @update:config="valueUpdate($event, rangeData)"/>
 </template>
 ```
 
+### 刻度 range
+
+```vue
+<script setup lang="ts">
+import { reactive } from 'vue'
+const rangeData = reactive({
+  // 数值
+  value: 0,
+  // 最大（范围）
+  max: 100,
+  // 最小（范围）
+  min: 0,
+  // 步进
+  step: 10,
+  // 配置名
+  text: 'text',
+  // 配置描述
+  desc: 'desc',
+  // 刻度
+  scale: 10
+})
+
+const rangePattern = reactive(
+	{
+        // 移动快左位移
+    	moveLeft: '0%',
+        // text 字体大小
+        textFontSize: '1.5vw',
+        // 组件 padding
+        boxPadding: '0',
+        // 子盒子间隔
+        boxGap: '10px',
+        // 标题内容布局 (start, center, end)
+        textAlign: 'start',
+        // 描述字符高度
+        descLine: 1.2,
+        // 描述底部间距
+        descMargin: '20px',
+        // 描述字体大小
+        descFontSize: '1.2vw',
+    }
+)
+</script>
+<template>
+    <RangeTool
+        :config="rangeData"
+        @update:config="valueUpdate($event, rangeData)"/>
+</template>
+```
+
+
+
 # checkbox
 
-### 父组件
-
-#### 普通组件
+### 普通组件
 
 ```vue
 <script setup lang="ts">
@@ -136,6 +199,7 @@ const checkboxData = reactive([
     text: '鼠标 LOD 高度',
     // 配置描述
     desc: '鼠标离开桌面停止运动的距离，低：1mm，高：2mm',
+    // 是否单选
     single: true,
   },
 ])
@@ -146,6 +210,20 @@ const checkboxPattern = reactive(
     	textMargin: '20px',
         // 配置组件与其他组件底部间距
   		boxMargin: '20px',
+        // text 字体大小
+        textFontSize: '1.5vw',
+        // 组件 padding
+        boxPadding: '0',
+        // 子盒子间隔
+        boxGap: '10px',
+        // 标题内容布局 (start, center, end)
+        textAlign: 'start',
+        // 描述字符高度
+        descLine: 1.2,
+        // 描述底部间距
+        descMargin: '20px',
+        // 描述字体大小
+        descFontSize: '1.2vw',
     }
 )
 
@@ -171,7 +249,7 @@ const valueUpdate = (newObj: Object, config: Object) => {
 </template>
 ```
 
-#### 功能组件
+### 功能组件
 
 ```vue
 <script setup lang="ts">
@@ -206,6 +284,20 @@ const checkboxPattern = reactive(
     	textMargin: '20px',
         // 配置组件与其他组件底部间距
   		boxMargin: '20px',
+        // text 字体大小
+        textFontSize: '1.5vw',
+        // 组件 padding
+        boxPadding: '0',
+        // 子盒子间隔
+        boxGap: '10px',
+        // 标题内容布局 (start, center, end)
+        textAlign: 'start',
+        // 描述字符高度
+        descLine: 1.2,
+        // 描述底部间距
+        descMargin: '20px',
+        // 描述字体大小
+        descFontSize: '1.2vw',
     }
 )
 
