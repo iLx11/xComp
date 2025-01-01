@@ -105,8 +105,8 @@ const check = (before, after) => {
     <div
       class="checkbox-desc"
       :style="{
-        marginBottom: compPattern.textMargin,
         marginBottom: compPattern.descMargin,
+        lineHeight: compPattern.descLine,
         fontSize: compPattern.descFontSize,
       }"
     >
@@ -142,10 +142,15 @@ const check = (before, after) => {
     // margin-bottom: 12px;
   }
   .checkbox-desc {
-    @include global.wh(100%, 50px);
+    @include global.wh(100%, auto);
     text-align: start;
     word-break: break-all;
     @include global.font_config(1.2vw, rgba(51, 51, 51, 0.8));
+    white-space: pre-wrap; /* CSS 2.1 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    // word-wrap: break-word; /* Internet Explorer 5.5+ */
   }
   // margin-bottom: 12px;
   .checkbox-box {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, watch } from 'vue'
+import { reactive, watch, ref } from 'vue'
 
 // 默认配置
 const defaultConfig = {
@@ -73,7 +73,16 @@ const checkValueChange = (index: number) => {
     compConfig.list.forEach((o) => (o.value = false))
   }
   compConfig.list[index].value = !compConfig.list[index].value
+  // 取消 input 没有选中后的焦点
+  if (
+    check(compProps.writable, compConfig.writable) &&
+    !compConfig.list[index].value
+  ) {
+    boxContentRef.value.children[index].children[0].blur()
+  }
 }
+
+const boxContentRef = ref()
 
 /********************************************************************************
  * @brief: 返回数据状态
@@ -121,6 +130,7 @@ const check = (before, after) => {
     <div
       class="checkbox-box"
       :style="{ marginBottom: compPattern.textMargin, gap: compPattern.boxGap }"
+      ref="boxContentRef"
     >
       <div
         v-for="(v, k) in check(compProps.list, compConfig.list)"
@@ -132,7 +142,7 @@ const check = (before, after) => {
           {{ v.item }}
         </div>
         <input
-          type="text"
+          type="number"
           v-model="compConfig.list[k].item"
           v-else
         />

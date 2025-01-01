@@ -58,6 +58,7 @@ watch(
  * @brief: 样式副本
  ********************************************************************************/
 const compPattern = reactive({ ...defaultPattern, ...props.pattern })
+const compPropsPattern = reactive(props.pattern)
 
 /********************************************************************************
  * @brief: range 更改回调
@@ -65,12 +66,12 @@ const compPattern = reactive({ ...defaultPattern, ...props.pattern })
  ********************************************************************************/
 const rangeChange = () => {
   let leftValue = Math.ceil(
-    (compConfig.value /
+    (compProps.value /
       (check(compProps.max, compConfig.max) -
         check(compProps.min, compConfig.min))) *
       100
   )
-  console.info(compConfig.value, compConfig.max)
+  // console.info(compConfig.value, compConfig.max)
   let minLeft = Math.ceil(
     (check(compProps.min, compConfig.min) /
       (check(compProps.max, compConfig.max) -
@@ -78,7 +79,7 @@ const rangeChange = () => {
       100
   )
 
-  compPattern.moveLeft = (leftValue - minLeft) * -2 + '%'
+  compPropsPattern.moveLeft = (leftValue - minLeft) * -2 + '%'
   // console.info(compPattern.moveLeft)
 }
 
@@ -103,9 +104,11 @@ const generateTicks = () => {
     return
   }
   const step =
-    (compConfig.max - compConfig.min) / check(compProps.scale, compConfig.scale)
+    (check(compProps.max, compConfig.max) -
+      check(compProps.min, compConfig.min)) /
+    check(compProps.scale, compConfig.scale)
   for (let i = 0; i <= check(compProps.scale, compConfig.scale); i++) {
-    ticks.push(compConfig.min + i * step)
+    ticks.push(check(compProps.min, compConfig.min) + i * step)
   }
   // console.info(ticks)
 }
@@ -151,7 +154,7 @@ const generateTicks = () => {
         class="range-input"
         type="range"
         @input="rangeChange"
-        v-model="compConfig.value"
+        v-model="compProps.value"
         :min="check(compProps.min, compConfig.min)"
         :max="check(compProps.max, compConfig.max)"
         :step="check(compProps.step, compConfig.step)"
@@ -160,7 +163,7 @@ const generateTicks = () => {
         <div class="range-center-line"></div>
         <div
           class="range-move-box"
-          :style="{ left: compPattern.moveLeft }"
+          :style="{ left: compPropsPattern.moveLeft }"
         >
           <div class="tick-short-line"></div>
 

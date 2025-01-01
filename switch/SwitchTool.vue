@@ -3,7 +3,7 @@ import { reactive, watch } from 'vue'
 
 // 默认配置
 const defaultConfig = {
-  value: 0,
+  value: false,
   text: 'text',
   desc: 'desc',
 }
@@ -30,12 +30,13 @@ const emit = defineEmits(['update:config'])
 /********************************************************************************
  * @brief: 配置副本
  ********************************************************************************/
-const switchConfig = reactive({ ...defaultConfig, ...props.config })
+const compConfig = reactive({ ...defaultConfig, ...props.config })
+const compProps = reactive(props.config)
 
 watch(
-  switchConfig,
+  compConfig,
   () => {
-    emit('update:config', { ...switchConfig })
+    emit('update:config', { ...compConfig })
   },
   { deep: true }
 )
@@ -43,96 +44,116 @@ watch(
 /********************************************************************************
  * @brief: 样式副本
  ********************************************************************************/
-const switchPattern = reactive({ ...defaultPattern, ...props.pattern })
+const compPattern = reactive({ ...defaultPattern, ...props.pattern })
+
+/********************************************************************************
+ * @brief: 返回数据状态
+ * @param {*} before
+ * @param {*} after
+ * @return {*}
+ ********************************************************************************/
+const check = (before, after) => {
+  return before ? before : after
+}
 </script>
 
 <template>
   <div
     class="switch-tool-content"
-    :style="{ marginBottom: switchPattern.boxMargin }"
+    :style="{ marginBottom: compPattern.boxMargin }"
   >
     <div
       class="first-line"
-      :style="{ marginBottom: switchPattern.textMargin }"
+      :style="{ marginBottom: compPattern.textMargin }"
     >
-      <div class="switch-text">{{ switchConfig.text }}</div>
+      <div class="switch-text">
+        {{ check(compProps.text, compConfig.text) }}
+      </div>
       <div class="switch-input">
         <div class="toggle-container">
+          <label
+            :for="`${check(compProps.text, compConfig.text)}`"
+            class="label"
+          >
           <input
+            checked=""
             type="checkbox"
             class="toggle-input"
-            v-model="switchConfig.value"
+            v-model="compProps.value"
+            :id="`${check(compProps.text, compConfig.text)}`"
           />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 292 142"
-            class="toggle"
-          >
-            <path
-              d="M71 142C31.7878 142 0 110.212 0 71C0 31.7878 31.7878 0 71 0C110.212 0 119 30 146 30C173 30 182 0 221 0C260 0 292 31.7878 292 71C292 110.212 260.212 142 221 142C181.788 142 173 112 146 112C119 112 110.212 142 71 142Z"
-              class="toggle-background"
-            ></path>
-            <rect
-              rx="6"
-              height="64"
-              width="12"
-              y="39"
-              x="64"
-              class="toggle-icon on"
-            ></rect>
-            <path
-              d="M221 91C232.046 91 241 82.0457 241 71C241 59.9543 232.046 51 221 51C209.954 51 201 59.9543 201 71C201 82.0457 209.954 91 221 91ZM221 103C238.673 103 253 88.6731 253 71C253 53.3269 238.673 39 221 39C203.327 39 189 53.3269 189 71C189 88.6731 203.327 103 221 103Z"
-              fill-rule="evenodd"
-              class="toggle-icon off"
-            ></path>
-            <g filter="url('#goo')">
+          
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 292 142"
+              class="toggle"
+            >
+              <path
+                d="M71 142C31.7878 142 0 110.212 0 71C0 31.7878 31.7878 0 71 0C110.212 0 119 30 146 30C173 30 182 0 221 0C260 0 292 31.7878 292 71C292 110.212 260.212 142 221 142C181.788 142 173 112 146 112C119 112 110.212 142 71 142Z"
+                class="toggle-background"
+              ></path>
               <rect
-                fill="#fff"
-                rx="29"
-                height="58"
-                width="116"
-                y="42"
-                x="13"
-                class="toggle-circle-center"
+                rx="6"
+                height="64"
+                width="12"
+                y="39"
+                x="64"
+                class="toggle-icon on"
               ></rect>
-              <rect
-                fill="#fff"
-                rx="58"
-                height="114"
-                width="114"
-                y="14"
-                x="14"
-                class="toggle-circle left"
-              ></rect>
-              <rect
-                fill="#fff"
-                rx="58"
-                height="114"
-                width="114"
-                y="14"
-                x="164"
-                class="toggle-circle right"
-              ></rect>
-            </g>
-            <filter id="goo">
-              <feGaussianBlur
-                stdDeviation="10"
-                result="blur"
-                in="SourceGraphic"
-              ></feGaussianBlur>
-              <feColorMatrix
-                result="goo"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
-                mode="matrix"
-                in="blur"
-              ></feColorMatrix>
-            </filter>
-          </svg>
+              <path
+                d="M221 91C232.046 91 241 82.0457 241 71C241 59.9543 232.046 51 221 51C209.954 51 201 59.9543 201 71C201 82.0457 209.954 91 221 91ZM221 103C238.673 103 253 88.6731 253 71C253 53.3269 238.673 39 221 39C203.327 39 189 53.3269 189 71C189 88.6731 203.327 103 221 103Z"
+                fill-rule="evenodd"
+                class="toggle-icon off"
+              ></path>
+              <g filter="url('#goo')">
+                <rect
+                  fill="#fff"
+                  rx="29"
+                  height="58"
+                  width="116"
+                  y="42"
+                  x="13"
+                  class="toggle-circle-center"
+                ></rect>
+                <rect
+                  fill="#fff"
+                  rx="58"
+                  height="114"
+                  width="114"
+                  y="14"
+                  x="14"
+                  class="toggle-circle left"
+                ></rect>
+                <rect
+                  fill="#fff"
+                  rx="58"
+                  height="114"
+                  width="114"
+                  y="14"
+                  x="164"
+                  class="toggle-circle right"
+                ></rect>
+              </g>
+              <filter id="goo">
+                <feGaussianBlur
+                  stdDeviation="10"
+                  result="blur"
+                  in="SourceGraphic"
+                ></feGaussianBlur>
+                <feColorMatrix
+                  result="goo"
+                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+                  mode="matrix"
+                  in="blur"
+                ></feColorMatrix>
+              </filter>
+            </svg>
+          </label>
         </div>
       </div>
     </div>
     <div class="switch-desc">
-      {{ switchConfig.desc }}
+      {{ check(compProps.desc, compConfig.desc) }}
     </div>
   </div>
 </template>
