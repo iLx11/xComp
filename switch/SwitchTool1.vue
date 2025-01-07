@@ -10,8 +10,24 @@ const defaultConfig = {
 
 // 默认样式
 const defaultPattern = {
+  // text 与 desc 底部间距
   textMargin: '20px',
+  // 配置组件与其他组件底部间距
   boxMargin: '20px',
+  // text 字体大小
+  textFontSize: '1.5vw',
+  // 组件 padding
+  boxPadding: '0',
+  // 子盒子间隔
+  boxGap: '10px',
+  // 标题内容布局 (start, center, end)
+  textAlign: 'start',
+  // 描述字符高度
+  descLine: 1.2,
+  // 描述底部间距
+  descMargin: '20px',
+  // 描述字体大小
+  descFontSize: '1.2vw',
 }
 
 const props = defineProps({
@@ -30,12 +46,13 @@ const emit = defineEmits(['update:config'])
 /********************************************************************************
  * @brief: 配置副本
  ********************************************************************************/
-const switchConfig = reactive({ ...defaultConfig, ...props.config })
+const compConfig = reactive({ ...defaultConfig, ...props.config })
+const compProps = reactive(props.config)
 
 watch(
-  switchConfig,
+  compConfig,
   () => {
-    emit('update:config', { ...switchConfig })
+    emit('update:config', { ...compConfig })
   },
   { deep: true }
 )
@@ -43,36 +60,64 @@ watch(
 /********************************************************************************
  * @brief: 样式副本
  ********************************************************************************/
-const switchPattern = reactive({ ...defaultPattern, ...props.pattern })
+const compPattern = reactive({ ...defaultPattern, ...props.pattern })
+
+/********************************************************************************
+ * @brief: 返回数据状态
+ * @param {*} before
+ * @param {*} after
+ * @return {*}
+ ********************************************************************************/
+const check = (before, after) => {
+  return before ? before : after
+}
 </script>
 
 <template>
   <div
     class="switch-tool-content"
-    :style="{ marginBottom: switchPattern.boxMargin }"
+    :style="{
+      marginBottom: compPattern.boxMargin,
+      padding: compPattern.boxPadding,
+    }"
   >
     <div
       class="first-line"
-      :style="{ marginBottom: switchPattern.textMargin }"
+      :style="{
+        marginBottom: compPattern.textMargin,
+        textAlign: compPattern.textAlign,
+      }"
     >
-      <div class="switch-text">{{ switchConfig.text }}</div>
+      <div
+        class="switch-text"
+        :style="{ fontSize: compPattern.textFontSize }"
+      >
+        {{ check(compProps.text, compConfig.text) }}
+      </div>
       <div class="switch-input">
         <input
           type="checkbox"
           name="checkbox-input"
           class="checkbox-input"
-          :id="`${switchConfig.text}`"
-          v-model="switchConfig.value"
+          :id="`${check(compProps.text, compConfig.text)}`"
+          v-model="compConfig.value"
         />
         <label
-          :for="`${switchConfig.text}`"
+          :for="`${check(compProps.text, compConfig.text)}`"
           class="label"
         >
         </label>
       </div>
     </div>
-    <div class="switch-desc">
-      {{ switchConfig.desc }}
+    <div
+      class="switch-desc"
+      :style="{
+        lineHeight: compPattern.descLine,
+        marginBottom: compPattern.descMargin,
+        fontSize: compPattern.descFontSize,
+      }"
+    >
+      {{ check(compProps.desc, compConfig.desc) }}
     </div>
   </div>
 </template>
@@ -82,13 +127,13 @@ const switchPattern = reactive({ ...defaultPattern, ...props.pattern })
   @include global.wh(100%, auto);
   @include global.flex_config(1, space-between);
   .first-line {
-    @include global.wh(100%, 50px);
+    @include global.wh(100%, auto);
     @include global.flex_config(0, space-between);
     @include global.font_config(1.5vw, rgba(51, 51, 51, 1));
     // margin-bottom: 12px;
   }
   .switch-desc {
-    @include global.wh(100%, 50px);
+    @include global.wh(100%, auto);
     text-align: start;
     word-break: break-all;
     @include global.font_config(1.2vw, rgba(51, 51, 51, 0.8));

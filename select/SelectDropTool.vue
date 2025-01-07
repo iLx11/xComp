@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { onMounted, reactive, watch, ref } from 'vue'
 
+onMounted(() => {
+  selectOption(compConfig.list.findIndex(o => o.value))
+})
+
 // 默认配置
 const defaultConfig = {
   list: [],
@@ -10,9 +14,28 @@ const defaultConfig = {
 
 // 默认样式
 const defaultPattern = {
-  textMargin: '20px',
-  boxMargin: '20px',
+  // 输入组件宽度
   inputWidth: '50%',
+  // text 与 desc 底部间距
+  textMargin: '20px',
+  // 配置组件与其他组件底部间距
+  boxMargin: '20px',
+  // text 字体大小
+  textFontSize: '1.5vw',
+  // select 组件字体大小
+  selectFontSize: '1.2vw',
+  // 组件 padding
+  boxPadding: '0',
+  // 子盒子间隔
+  boxGap: '10px',
+  // 标题内容布局 (start, center, end)
+  textAlign: 'start',
+  // 描述字符高度
+  descLine: 1.2,
+  // 描述底部间距
+  descMargin: '20px',
+  // 描述字体大小
+  descFontSize: '1.2vw',
 }
 
 const props = defineProps({
@@ -79,16 +102,27 @@ const check = (before, after) => {
 <template>
   <div
     class="select-tool-content"
-    :style="{ marginBottom: compPattern.boxMargin }"
+    :style="{
+      marginBottom: compPattern.boxMargin,
+      padding: compPattern.boxPadding,
+    }"
   >
     <div
       class="first-line"
-      :style="{ marginBottom: compPattern.textMargin }"
+      :style="{
+        marginBottom: compPattern.textMargin,
+        textAlign: compPattern.textAlign,
+      }"
     >
-      <div class="select-text">{{ check(compProps.text, compConfig.text) }}</div>
+      <div
+        class="select-text"
+        :style="{ fontSize: compPattern.textFontSize }"
+      >
+        {{ check(compProps.text, compConfig.text) }}
+      </div>
       <div
         class="select-input"
-        :style="{ width: compPattern.inputWidth }"
+        :style="{ width: compPattern.inputWidth, fontSize: compPattern.selectFontSize  }"
       >
         <div class="dropdown">
           <input
@@ -130,7 +164,14 @@ const check = (before, after) => {
         </div>
       </div>
     </div>
-    <div class="select-desc">
+    <div
+      class="select-desc"
+      :style="{
+        lineHeight: compPattern.descLine,
+        marginBottom: compPattern.descMargin,
+        fontSize: compPattern.descFontSize,
+      }"
+    >
       {{ check(compProps.desc, compConfig.desc) }}
     </div>
   </div>
@@ -149,7 +190,7 @@ const check = (before, after) => {
     // margin-bottom: 12px;
   }
   .select-desc {
-    @include global.wh(100%, 50px);
+    @include global.wh(100%, auto);
     text-align: start;
     word-break: break-all;
     @include global.font_config(1.2vw, rgba(51, 51, 51, 0.8));
@@ -159,16 +200,15 @@ const check = (before, after) => {
   padding-top: 0.8em;
 }
 
-.select-input {
-  // @include global.wh(50%, 100%);
-  height: 100%;
-  font-size: 1.2vw !important;
-}
+// .select-input {
+//   // @include global.wh(50%, 100%);
+//   height: 100%;
+//   font-size: 1.2vw !important;
+// }
 
 .dropdown {
   // font-family: 'Helvetica', sans-serif;
-
-  font-weight: 300;
+  // font-weight: 300;
   box-shadow: 0 0 0 2px rgba(51, 51, 51, 0.2);
   border-radius: 12px;
   @include global.style_common(16px, null, null, global.$shadow1);
@@ -189,7 +229,10 @@ const check = (before, after) => {
   &__filter {
     position: relative;
     display: flex;
-    padding: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 0 0 20px;
+    height: 50px;
     color: #595959;
     background-color: #fff;
     border-radius: 18px;
@@ -223,8 +266,9 @@ const check = (before, after) => {
     top: 100%;
     left: 0;
     width: 100%;
+    max-height: 150px;
     margin-top: 12px;
-    overflow: hidden;
+    overflow: scroll;
     transform: scaleY(0);
     transform-origin: top;
     border-radius: 18px;
