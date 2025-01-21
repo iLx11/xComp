@@ -280,9 +280,9 @@ $range-track-color: $shade-1 !default;
 }
 
 .range-text-box {
-  @include global.wh(102%, 50px);
+  @include global.wh(102%, 45px);
   position: relative;
-  overflow: scroll;
+  overflow: hidden;
   mask: linear-gradient(90deg, #000 70%, transparent);
 
   .range-center-line {
