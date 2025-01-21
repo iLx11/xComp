@@ -100,7 +100,7 @@ const check = (before, after) => {
           name="checkbox-input"
           class="checkbox-input"
           :id="`${check(compProps.text, compConfig.text)}`"
-          v-model="compConfig.value"
+          v-model="compProps.value"
         />
         <label
           :for="`${check(compProps.text, compConfig.text)}`"

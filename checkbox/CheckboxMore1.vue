@@ -144,7 +144,7 @@ const check = (before, after) => {
       ref="boxContentRef"
     >
       <div
-        v-for="(v, k) in check(compProps.list, compConfig.list)"
+        v-for="(v, k) in compProps.list"
         :key="v"
         @click="checkValueChange(k)"
         :style="compPattern.contentBoxStyle"
@@ -152,7 +152,7 @@ const check = (before, after) => {
         <!-- 选中样式 -->
         <div
           class="select-style-box"
-          v-if="v.value"
+          v-if="compProps.list[k].value"
           :style="compPattern.boxSelectStyle"
         ></div>
         <div

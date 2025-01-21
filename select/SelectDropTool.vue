@@ -2,7 +2,7 @@
 import { onMounted, reactive, watch, ref } from 'vue'
 
 onMounted(() => {
-  selectOption(compConfig.list.findIndex(o => o.value))
+  defaultText.value = compConfig.list[compConfig.list.findIndex(o => o.value == true)].item
 })
 
 // 默认配置

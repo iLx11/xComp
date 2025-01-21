@@ -122,6 +122,7 @@ const check = (before, after) => {
       name=""
       id=""
       v-model="compConfig.value"
+      spellcheck="false"
     />
   </div>
 </template>
