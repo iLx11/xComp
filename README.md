@@ -5,31 +5,27 @@
 ```vue
 <script setup lang="ts">
 import { reactive } from 'vue'
-const switchData = reactive(
-	{
-        // 数值
-        value: false,
-        // 配置名
-        text: 'text',
-        // 配置描述
-        desc: 'desc',
-	}
-)
+const switchData = reactive({
+  // 数值
+  value: false,
+  // 配置名
+  text: 'text',
+  // 配置描述
+  desc: 'desc',
+})
 
-const switchPattern = reactive(
-	{
-        // text 与 desc 底部间距
-    	textMargin: '20px',
-        // 配置组件与其他组件底部间距
-  		boxMargin: '20px',
-    }
-)
+const switchPattern = reactive({
+  // text 与 desc 底部间距
+  textMargin: '20px',
+  // 配置组件与其他组件底部间距
+  boxMargin: '20px',
+})
 </script>
 <template>
-    <SwitchTool
-       v-model:config="switchData" 
-       :pattern="switchPattern"
-    />
+  <SwitchTool
+    v-model:config="switchData"
+    :pattern="switchPattern"
+  />
 </template>
 ```
 
@@ -56,20 +52,18 @@ const selectDropData = reactive({
   desc: 'desc',
 })
 
-const selectPattern = reactive(
-	{
-        // text 与 desc 底部间距
-    	textMargin: '20px',
-        // 配置组件与其他组件底部间距
-  		boxMargin: '20px',
-    }
-)
+const selectPattern = reactive({
+  // text 与 desc 底部间距
+  textMargin: '20px',
+  // 配置组件与其他组件底部间距
+  boxMargin: '20px',
+})
 </script>
 <template>
-    <SelectDropTool
-       v-model:config="selectDropData" 
-       :pattern="selectPattern"
-    />
+  <SelectDropTool
+    v-model:config="selectDropData"
+    :pattern="selectPattern"
+  />
 </template>
 ```
 
@@ -95,31 +89,30 @@ const rangeData = reactive({
   desc: 'desc',
 })
 
-const rangePattern = reactive(
-	{
-        // 移动快左位移
-    	moveLeft: '0%',
-        // text 字体大小
-        textFontSize: '1.5vw',
-        // 组件 padding
-        boxPadding: '0',
-        // 子盒子间隔
-        boxGap: '10px',
-        // 标题内容布局 (start, center, end)
-        textAlign: 'start',
-        // 描述字符高度
-        descLine: 1.2,
-        // 描述底部间距
-        descMargin: '20px',
-        // 描述字体大小
-        descFontSize: '1.2vw',
-    }
-)
+const rangePattern = reactive({
+  // 移动快左位移
+  moveLeft: '0%',
+  // text 字体大小
+  textFontSize: '1.5vw',
+  // 组件 padding
+  boxPadding: '0',
+  // 子盒子间隔
+  boxGap: '10px',
+  // 标题内容布局 (start, center, end)
+  textAlign: 'start',
+  // 描述字符高度
+  descLine: 1.2,
+  // 描述底部间距
+  descMargin: '20px',
+  // 描述字体大小
+  descFontSize: '1.2vw',
+})
 </script>
 <template>
-    <RangeTool
-        :config="rangeData"
-        @update:config="valueUpdate($event, rangeData)"/>
+  <RangeTool
+    :config="rangeData"
+    @update:config="valueUpdate($event, rangeData)"
+  />
 </template>
 ```
 
@@ -142,38 +135,35 @@ const rangeData = reactive({
   // 配置描述
   desc: 'desc',
   // 刻度
-  scale: 10
+  scale: 10,
 })
 
-const rangePattern = reactive(
-	{
-        // 移动快左位移
-    	moveLeft: '0%',
-        // text 字体大小
-        textFontSize: '1.5vw',
-        // 组件 padding
-        boxPadding: '0',
-        // 子盒子间隔
-        boxGap: '10px',
-        // 标题内容布局 (start, center, end)
-        textAlign: 'start',
-        // 描述字符高度
-        descLine: 1.2,
-        // 描述底部间距
-        descMargin: '20px',
-        // 描述字体大小
-        descFontSize: '1.2vw',
-    }
-)
+const rangePattern = reactive({
+  // 移动快左位移
+  moveLeft: '0%',
+  // text 字体大小
+  textFontSize: '1.5vw',
+  // 组件 padding
+  boxPadding: '0',
+  // 子盒子间隔
+  boxGap: '10px',
+  // 标题内容布局 (start, center, end)
+  textAlign: 'start',
+  // 描述字符高度
+  descLine: 1.2,
+  // 描述底部间距
+  descMargin: '20px',
+  // 描述字体大小
+  descFontSize: '1.2vw',
+})
 </script>
 <template>
-    <RangeTool
-        :config="rangeData"
-        @update:config="valueUpdate($event, rangeData)"/>
+  <RangeTool
+    :config="rangeData"
+    @update:config="valueUpdate($event, rangeData)"
+  />
 </template>
 ```
-
-
 
 # checkbox
 
@@ -204,28 +194,26 @@ const checkboxData = reactive([
   },
 ])
 
-const checkboxPattern = reactive(
-	{
-        // text 与 desc 底部间距
-    	textMargin: '20px',
-        // 配置组件与其他组件底部间距
-  		boxMargin: '20px',
-        // text 字体大小
-        textFontSize: '1.5vw',
-        // 组件 padding
-        boxPadding: '0',
-        // 子盒子间隔
-        boxGap: '10px',
-        // 标题内容布局 (start, center, end)
-        textAlign: 'start',
-        // 描述字符高度
-        descLine: 1.2,
-        // 描述底部间距
-        descMargin: '20px',
-        // 描述字体大小
-        descFontSize: '1.2vw',
-    }
-)
+const checkboxPattern = reactive({
+  // text 与 desc 底部间距
+  textMargin: '20px',
+  // 配置组件与其他组件底部间距
+  boxMargin: '20px',
+  // text 字体大小
+  textFontSize: '1.5vw',
+  // 组件 padding
+  boxPadding: '0',
+  // 子盒子间隔
+  boxGap: '10px',
+  // 标题内容布局 (start, center, end)
+  textAlign: 'start',
+  // 描述字符高度
+  descLine: 1.2,
+  // 描述底部间距
+  descMargin: '20px',
+  // 描述字体大小
+  descFontSize: '1.2vw',
+})
 
 /********************************************************************************
  * @brief: 更新配置值
@@ -234,7 +222,7 @@ const checkboxPattern = reactive(
  * @return {*}
  ********************************************************************************/
 const valueUpdate = (newObj: Object, config: Object) => {
-  Object.keys(config).forEach((key) => {
+  Object.keys(config).forEach(key => {
     if (key in newObj) {
       config[key] = newObj[key]
     }
@@ -242,10 +230,10 @@ const valueUpdate = (newObj: Object, config: Object) => {
 }
 </script>
 <template>
-    <CheckboxTool
-       :config="checkboxData"
-        @update:config="valueUpdate($event, checkboxData)"
-    />
+  <CheckboxTool
+    :config="checkboxData"
+    @update:config="valueUpdate($event, checkboxData)"
+  />
 </template>
 ```
 
@@ -273,33 +261,31 @@ const checkboxData = reactive([
     desc: '鼠标离开桌面停止运动的距离，低：1mm，高：2mm',
     // 是否单选
     single: true,
-   	// 是否可编辑
+    // 是否可编辑
     writable: false,
   },
 ])
 
-const checkboxPattern = reactive(
-	{
-        // text 与 desc 底部间距
-    	textMargin: '20px',
-        // 配置组件与其他组件底部间距
-  		boxMargin: '20px',
-        // text 字体大小
-        textFontSize: '1.5vw',
-        // 组件 padding
-        boxPadding: '0',
-        // 子盒子间隔
-        boxGap: '10px',
-        // 标题内容布局 (start, center, end)
-        textAlign: 'start',
-        // 描述字符高度
-        descLine: 1.2,
-        // 描述底部间距
-        descMargin: '20px',
-        // 描述字体大小
-        descFontSize: '1.2vw',
-    }
-)
+const checkboxPattern = reactive({
+  // text 与 desc 底部间距
+  textMargin: '20px',
+  // 配置组件与其他组件底部间距
+  boxMargin: '20px',
+  // text 字体大小
+  textFontSize: '1.5vw',
+  // 组件 padding
+  boxPadding: '0',
+  // 子盒子间隔
+  boxGap: '10px',
+  // 标题内容布局 (start, center, end)
+  textAlign: 'start',
+  // 描述字符高度
+  descLine: 1.2,
+  // 描述底部间距
+  descMargin: '20px',
+  // 描述字体大小
+  descFontSize: '1.2vw',
+})
 
 /********************************************************************************
  * @brief: 更新配置值
@@ -308,7 +294,7 @@ const checkboxPattern = reactive(
  * @return {*}
  ********************************************************************************/
 const valueUpdate = (newObj: Object, config: Object) => {
-  Object.keys(config).forEach((key) => {
+  Object.keys(config).forEach(key => {
     if (key in newObj) {
       config[key] = newObj[key]
     }
@@ -316,10 +302,9 @@ const valueUpdate = (newObj: Object, config: Object) => {
 }
 </script>
 <template>
-    <CheckboxTool
-       :config="checkboxData"
-        @update:config="valueUpdate($event, checkboxData)"
-    />
+  <CheckboxTool
+    :config="checkboxData"
+    @update:config="valueUpdate($event, checkboxData)"
+  />
 </template>
 ```
-
